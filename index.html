@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechStore - ტექნიკის მაღაზია</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#" onclick="showPage('home')">
+                <i class="fas fa-laptop"></i> TechStore
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('home')">
+                            <i class="fas fa-home"></i> მთავარი
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('products')">
+                            <i class="fas fa-mobile-alt"></i> პროდუქცია
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('about')">
+                            <i class="fas fa-info-circle"></i> ჩვენ შესახებ
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('contact')">
+                            <i class="fas fa-envelope"></i> კონტაქტი
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('cart')">
+                            <i class="fas fa-shopping-cart"></i> კალათა <span class="badge bg-primary">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown" id="authDropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            <i class="fas fa-user"></i> <span id="authText">ავტორიზაცია</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" onclick="showPage('login')">შესვლა</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="showPage('register')">რეგისტრაცია</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <!-- User Info -->
+            <div class="user-info" id="userInfo" style="display: none;">
+                <i class="fas fa-user"></i> შესული ხართ როგორც: <span id="currentUser">მომხმარებელი</span>
+                <button class="btn btn-sm btn-outline-light float-end" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> გასვლა
+                </button>
+            </div>
+            
+            <!-- Admin Panel -->
+            <div class="admin-panel" id="adminPanel" style="display: none;">
+                <h4><i class="fas fa-crown"></i> ადმინისტრატორის პანელი</h4>
+                <p>გილოცავთ! თქვენ ხართ ადმინისტრატორი და შეგიძლიათ პროდუქტების მართვა.</p>
+                <button class="btn btn-light" onclick="showAddProductForm()">
+                    <i class="fas fa-plus"></i> ახალი პროდუქტის დამატება
+                </button>
+            </div>
+
+            <!-- Home Page -->
+            <div id="home" class="page active">
+                <div class="hero-section">
+                    <h1><i class="fas fa-rocket"></i> კეთილი იყოს თქვენი მობრძანება TechStore-ში!</h1>
+                    <p class="lead">საქართველოში ყველაზე დიდი ტექნიკის მაღაზია - ტელეფონები, ლეპტოპები, აქსესუარები და სხვა</p>
+                    <button class="btn btn-primary btn-lg" onclick="showPage('products')">
+                        <i class="fas fa-shopping-bag"></i> პროდუქტების ნახვა
+                    </button>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <h4>სმარტფონები</h4>
+                            <p>უახლესი მოდელები Apple, Samsung, Xiaomi და სხვა ბრენდებისგან</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-laptop"></i>
+                            </div>
+                            <h4>ლეპტოპები</h4>
+                            <p>სამუშაოდ, სასწავლებლად და გათამაშებისთვის განკუთვნილი ყველა ტიპის ლეპტოპი</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-headphones"></i>
+                            </div>
+                            <h4>აქსესუარები</h4>
+                            <p>ყურსასმენები, დატენვის მოწყობილობები, ფუთლარები და სხვა</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Page -->
+            <div id="products" class="page">
+                <h1 class="page-title">ჩვენი პროდუქცია</h1>
+                
+                <!-- Product Categories -->
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-outline-primary active" onclick="filterProducts('all')">ყველა</button>
+                            <button type="button" class="btn btn-outline-primary" onclick="filterProducts('phones')">ტელეფონები</button>
+                            <button type="button" class="btn btn-outline-primary" onclick="filterProducts('laptops')">ლეპტოპები</button>
+                            <button type="button" class="btn btn-outline-primary" onclick="filterProducts('accessories')">აქსესუარები</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Add Product Form (Admin Only) -->
+                <div id="addProductSection" style="display: none;">
+                    <div class="card mb-4" id="addProductForm" style="display: none;">
+                        <div class="card-header">
+                            <h5><i class="fas fa-plus"></i> ახალი პროდუქტის დამატება</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="productForm">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">პროდუქტის სახელი *</label>
+                                            <input type="text" class="form-control" id="productName" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">ფასი (ლარი) *</label>
+                                            <input type="number" class="form-control" id="productPrice" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">კატეგორია *</label>
+                                    <select class="form-select" id="productCategory" required>
+                                        <option value="">აირჩიეთ კატეგორია</option>
+                                        <option value="phones">ტელეფონები</option>
+                                        <option value="laptops">ლეპტოპები</option>
+                                        <option value="accessories">აქსესუარები</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">აღწერა</label>
+                                    <textarea class="form-control" id="productDescription" rows="3"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i> შენახვა
+                                </button>
+                                <button type="button" class="btn btn-secondary" onclick="hideAddProductForm()">
+                                    <i class="fas fa-times"></i> გაუქმება
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Products Grid -->
+                <div class="row" id="productsGrid">
+                    <!-- Sample Products -->
+                    <div class="col-md-4 product-item" data-category="phones">
+                        <div class="card product-card">
+                            <div class="product-image">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">iPhone 15 Pro</h5>
+                                <p class="card-text">უახლესი Apple-ის ფლაგმანი 128GB მეხსიერებით</p>
+                                <p class="price">3,499 ლარი</p>
+                                <button class="btn btn-primary" onclick="addToCart('iPhone 15 Pro', 3499)">
+                                    <i class="fas fa-cart-plus"></i> კალათაში დამატება
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4 product-item" data-category="phones">
+                        <div class="card product-card">
+                            <div class="product-image">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Samsung Galaxy S24</h5>
+                                <p class="card-text">ძლიერი Android ტელეფონი 256GB-ით</p>
+                                <p class="price">2,799 ლარი</p>
+                                <button class="btn btn-primary" onclick="addToCart('Samsung Galaxy S24', 2799)">
+                                    <i class="fas fa-cart-plus"></i> კალათაში დამატება
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4 product-item" data-category="laptops">
+                        <div class="card product-card">
+                            <div class="product-image">
+                                <i class="fas fa-laptop"></i>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">MacBook Air M2</h5>
+                                <p class="card-text">Apple-ის ლეპტოპი M2 ჩიპით, 8GB RAM, 256GB SSD</p>
+                                <p class="price">3,199 ლარი</p>
+                                <button class="btn btn-primary" onclick="addToCart('MacBook Air M2', 3199)">
+                                    <i class="fas fa-cart-plus"></i> კალათაში დამატება
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4 product-item" data-category="laptops">
+                        <div class="card product-card">
+                            <div class="product-image">
+                                <i class="fas fa-laptop"></i>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Dell XPS 13</h5>
+                                <p class="card-text">ფორმირება: Intel i7, 16GB RAM, 512GB SSD</p>
+                                <p class="price">2,599 ლარი</p>
+                                <button class="btn btn-primary" onclick="addToCart('Dell XPS 13', 2599)">
+                                    <i class="fas fa-cart-plus"></i> კალათაში დამატება
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4 product-item" data-category="accessories">
+                        <div class="card product-card">
+                            <div class="product-image">
+                                <i class="fas fa-headphones"></i>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">AirPods Pro</h5>
+                                <p class="card-text">უკაბელო ყურსასმენები ნოიზ-კანსელაციით</p>
+                                <p class="price">699 ლარი</p>
+                                <button class="btn btn-primary" onclick="addToCart('AirPods Pro', 699)">
+                                    <i class="fas fa-cart-plus"></i> კალათაში დამატება
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4 product-item" data-category="accessories">
+                        <div class="card product-card">
+                            <div class="product-image">
+                                <i class="fas fa-battery-full"></i>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Power Bank 20000mAh</h5>
+                                <p class="card-text">მაღალი ხარისხის პორტატული დატენვა</p>
+                                <p class="price">149 ლარი</p>
+                                <button class="btn btn-primary" onclick="addToCart('Power Bank 20000mAh', 149)">
+                                    <i class="fas fa-cart-plus"></i> კალათაში დამატება
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- About Page -->
+            <div id="about" class="page">
+                <h1 class="page-title">ჩვენ შესახებ</h1>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h3><i class="fas fa-lightbulb"></i> ჩვენი მისია</h3>
+                                        <p>TechStore არის საქართველოს წამყვანი ტექნიკის მაღაზია, რომელიც გთავაზობთ უახლეს ტექნოლოგიებს ხელმისაწვდომ ფასებში. ჩვენი მიზანია ყველა მომხმარებელს მივაწოდოთ ხარისხიანი პროდუქტები და სრულყოფილი მომსახურება.</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h3><i class="fas fa-users"></i> ჩვენი გუნდი</h3>
+                                        <p>ჩვენ ვართ გამოცდილი პროფესიონალები, რომლებსაც ღრმად ვიცნობთ ტექნოლოგიების ბაზარი და ვეხმარებით მომხმარებლებს აირჩიონ სწორი პროდუქტი თავიანთი საჭიროებების მიხედვით.</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="text-center">
+                                    <h4><i class="fas fa-store"></i> ჩვენი მიდგომა</h4>
+                                    <div class="row mt-4">
+                                        <div class="col-md-3">
+                                            <i class="fas fa-medal fa-3x text-primary"></i>
+                                            <h6>ხარისხი</h6>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <i class="fas fa-shipping-fast fa-3x text-primary"></i>
+                                            <h6>სწრაფი მიწოდება</h6>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <i class="fas fa-tools fa-3x text-primary"></i>
+                                            <h6>ტექნიკური მხარდაჭერა</h6>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <i class="fas fa-shield-alt fa-3x text-primary"></i>
+                                            <h6>გარანტია</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>რატომ ჩვენ?</h4>
+                                <ul>
+                                    <li>ოფიციალური გარანტია</li>
+                                    <li>უფასო მიწოდება 100 ლარზე ზემოთ</li>
+                                    <li>ტექნიკური კონსულტაცია</li>
+                                    <li>სწრაფი მომსახურება</li>
+                                    <li>ყველაზე კარგი ფასები</li>
+                                </ul>
+                                <h4>მომსახურება</h4>
+                                <ul>
+                                    <li>ღია ყოველდღე 10:00-22:00</li>
+                                    <li>ონლაინ მხარდაჭერა 24/7</li>
+                                    <li>სერვისი და რემონტი</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shopping Cart -->
+            <div id="cart" class="page">
+                <h1 class="page-title">საყიდლების კალათა</h1>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-shopping-cart"></i> თქვენი პროდუქტები</h5>
+                            </div>
+                            <div class="card-body" id="cartItems">
+                                <p class="text-muted">კალათა ცარიელია</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-calculator"></i> ჯამი</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>სულ: <span id="totalPrice">0</span> ლარი</strong></p>
+                                <button class="btn btn-success w-100" onclick="checkout()">
+                                    <i class="fas fa-credit-card"></i> შეკვეთის გაფორმება
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Page -->
+            <div id="contact" class="page">
+                <h1 class="page-title">დაგვიკავშირდით</h1>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-envelope"></i> მიწერეთ მესიჯი</h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="contactForm">
+                                    <div class="mb-3">
+                                        <label class="form-label">სახელი *</label>
+                                        <input type="text" class="form-control" id="contactName" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">ელფოსტა *</label>
+                                        <input type="email" class="form-control" id="contactEmail" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">თემა *</label>
+                                        <select class="form-select" id="contactSubject" required>
+                                            <option value="">აირჩიეთ თემა</option>
+                                            <option value="product">პროდუქტის შესახებ კითხვა</option>
+                                            <option value="order">შეკვეთის შესახებ</option>
+                                            <option value="service">სერვისი/რემონტი</option>
+                                            <option value="other">სხვა</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">მესიჯი *</label>
+                                        <textarea class="form-control" id="contactMessage" rows="5" required></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-paper-plane"></i> გაგზავნა
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-map-marker-alt"></i> საკონტაქტო ინფორმაცია</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><i class="fas fa-map-marker-alt"></i> <strong>მისამართი:</strong><br>
+                                თბილისი, რუსთაველის გამზ. 15<br>
+                                საქართველო</p>
+                                <p><i class="fas fa-phone"></i> <strong>ტელეფონი:</strong><br>
+                                +995 555 12 34 56</p>
+                                <p><i class="fas fa-envelope"></i> <strong>ელფოსტა:</strong><br>
+                                info@techstore.ge</p>
+                                <p><i class="fas fa-clock"></i> <strong>სამუშაო საათები:</strong><br>
+                                ყოველდღე: 10:00 - 22:00</p>
+                            </div>
+                        </div>
+                        
+                        <div class="card mt-3">
+                            <div class="card-header">
+                                <h5><i class="fas fa-comments"></i> შეტყობინებები</h5>
+                            </div>
+                            <div class="card-body" id="messagesDisplay">
+                                <p class="text-muted">აქ გამოჩნდება თქვენი შეტყობინებები</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Login Page -->
+            <div id="login" class="page">
+                <h1 class="page-title">შესვლა</h1>
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header text-center">
+                                <h5><i class="fas fa-sign-in-alt"></i> ავტორიზაცია</h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="loginForm">
+                                    <div class="mb-3">
+                                        <label class="form-label">მომხმარებლის სახელი *</label>
+                                        <input type="text" class="form-control" id="loginUsername" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">პაროლი *</label>
+                                        <input type="password" class="form-control" id="loginPassword" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100">
+                                        <i class="fas fa-sign-in-alt"></i> შესვლა
+                                    </button>
+                                </form>
+                                <hr>
+                                <div class="text-center">
+                                    <p>არ გაქვთ ანგარიში? <a href="#" onclick="showPage('register')">დარეგისტრირდით</a></p>
+                                    <small class="text-muted">
+                                        <strong>ტესტისთვის:</strong><br>
+                                        ადმინი: admin / admin123<br>
+                                        მომხმარებელი: user / user123
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Register Page -->
+            <div id="register" class="page">
+                <h1 class="page-title">რეგისტრაცია</h1>
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header text-center">
+                                <h5><i class="fas fa-user-plus"></i> ანგარიშის შექმნა</h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="registerForm">
+                                    <div class="mb-3">
+                                        <label class="form-label">მომხმარებლის სახელი *</label>
+                                        <input type="text" class="form-control" id="registerUsername" required>
+                                        <div class="form-text">მინიმუმ 3 სიმბოლო</div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">ელფოსტა *</label>
+                                        <input type="email" class="form-control" id="registerEmail" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">ტელეფონი *</label>
+                                        <input type="tel" class="form-control" id="registerPhone" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">პაროლი *</label>
+                                        <input type="password" class="form-control" id="registerPassword" required>
+                                        <div class="form-text">მინიმუმ 6 სიმბოლო</div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">პაროლის დადასტურება *</label>
+                                        <input type="password" class="form-control" id="confirmPassword" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100">
+                                        <i class="fas fa-user-plus"></i> რეგისტრაცია
+                                    </button>
+                                </form>
+                                <hr>
+                                <div class="text-center">
+                                    <p>უკვე გაქვთ ანგარიში? <a href="#" onclick="showPage('login')">შედით</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><i class="fas fa-laptop"></i> TechStore</h5>
+                    <p>საქართველოს წამყვანი ტექნიკის მაღაზია - ყველაზე კარგი ფასები და ხარისხი</p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <h5>მადლობა თიბისი ტექ სკოლას</h5>
+                    <a href="https://tbceducation.ge" target="_blank" class="text-decoration-none">
+                        <img src="images/თიბისი.png" alt="TBC Education">
+                    </a>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="text-center">
+                <p>&copy; 2025 TechStore. ყველა უფლება დაცულია.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
